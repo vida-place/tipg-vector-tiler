@@ -30,13 +30,13 @@ module "tipg-vector-tiler" {
   startup_cpu_boost     = "true"
   min_scale             = "0"
   max_scale             = "150"
-  extra_annotations = {
-  }
+  
   extra_template_annotations = {
     "run.googleapis.com/vpc-access-egress"    = "all"
     "run.googleapis.com/vpc-access-connector" = var.vpc-access-connector
     "run.googleapis.com/cloudsql-instances"   = var.cloudsql-instance
   }
-  secret_envs = {
-  }
+  envs = {}
+  secret_envs = {}
+  extra_annotations = {}
 }
