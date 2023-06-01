@@ -5,6 +5,7 @@ __pycache__/
 
 # Terraform
 *.terraform/
+*.tfvars
 
 # Data
 data/
