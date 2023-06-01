@@ -3,21 +3,21 @@ ARG PYTHON_VERSION=3.11
 FROM ghcr.io/vincentsarago/uvicorn-gunicorn:${PYTHON_VERSION}
 
 # Set app dir
-ENV APP_HOME /app
+ENV APP_HOME /src
 
 # Set workdir
-WORKDIR /code/app
+WORKDIR $APP_HOME
 
 # Allow for Python logging
 ENV PYTHONUNBUFFERED True
-ENV PYTHONPATH=/code/app
+ENV PYTHONPATH=$APP_HOME
 
 # Install requirements
-COPY $APP_HOME/requirements.txt /code/requirements.txt
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+COPY $APP_HOME/requirements.txt $APP_HOME/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r $APP_HOME/requirements.txt
 
 # Copy tiler
-COPY .$APP_HOME /code/app
+COPY .$APP_HOME $APP_HOME
 
 # Set service account env var
 ENV GOOGLE_APPLICATION_CREDENTIALS=service-account.json

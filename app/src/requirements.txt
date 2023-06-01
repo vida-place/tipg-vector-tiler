@@ -1,0 +1,9 @@
+pydantic
+fastapi>=0.87.0,<0.95
+starlette>=0.21.0,<0.25
+starlette-cramjam>=0.3,<0.4
+titiler.core==0.11.0
+titiler.mosaic==0.11.0
+titiler.extensions[cogeo,stac]==0.11.0
+google-cloud-storage
+loguru==0.7.0
