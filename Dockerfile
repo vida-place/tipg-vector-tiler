@@ -1,23 +1,21 @@
+# Use specific version of uvicorn-gunicorn image
 ARG PYTHON_VERSION=3.11
-
 FROM ghcr.io/vincentsarago/uvicorn-gunicorn:${PYTHON_VERSION}
 
 # Set app dir
-ENV APP_HOME /src
+WORKDIR /src
 
-# Set workdir
-WORKDIR $APP_HOME
-
-# Allow for Python logging
-ENV PYTHONUNBUFFERED True
-ENV PYTHONPATH=$APP_HOME
+# Allow for Python logging and add app directory to PYTHONPATH
+ENV PYTHONUNBUFFERED=True \
+    PYTHONPATH=/src
 
 # Install requirements
-COPY $APP_HOME/requirements.txt $APP_HOME/requirements.txt
-RUN pip install --no-cache-dir --upgrade -r $APP_HOME/requirements.txt
+# First, COPY only the requirements.txt file to leverage Docker cache
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-# Copy tiler
-COPY .$APP_HOME $APP_HOME
+# Copy the rest of the app
+COPY . .
 
-# Run on startup using gunicorn webserver.
-CMD exec gunicorn main:app -c gunicorn_config.py
+# Use an ENTRYPOINT to allow for additional command-line arguments
+ENTRYPOINT ["gunicorn", "main:app", "-c", "gunicorn_config.py"]
