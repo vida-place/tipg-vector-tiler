@@ -63,19 +63,19 @@ resource "google_cloud_run_service" "tiler_cloud_run_instance" {
 }
 
 
-data "google_iam_policy" "noauth" {
+data "google_iam_policy" "tiler_policy" {
   binding {
     role = "roles/run.invoker"
     members = [
-      "allUsers",
+      "admins",
     ]
   }
 }
 
-resource "google_cloud_run_service_iam_policy" "noauth" {
+resource "google_cloud_run_service_iam_policy" "tiler_policy" {
   location = google_cloud_run_service.default.location
   project  = google_cloud_run_service.default.project
   service  = google_cloud_run_service.default.name
 
-  policy_data = data.google_iam_policy.noauth.policy_data
+  policy_data = data.google_iam_policy.tiler_policy.policy_data
 }
