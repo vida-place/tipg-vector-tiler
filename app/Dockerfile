@@ -19,8 +19,5 @@ RUN pip install --no-cache-dir --upgrade -r $APP_HOME/requirements.txt
 # Copy tiler
 COPY .$APP_HOME $APP_HOME
 
-# Set service account env var
-ENV GOOGLE_APPLICATION_CREDENTIALS=service-account.json
-
 # Run on startup using gunicorn webserver.
 CMD exec gunicorn main:app -c gunicorn_config.py

@@ -14,5 +14,4 @@ data/
 .DS_Store
 
 # Secrets
-service-account.json
 .env
