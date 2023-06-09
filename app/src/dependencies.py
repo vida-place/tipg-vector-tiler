@@ -1,9 +1,7 @@
 """tipg dependencies."""
-
 import re
-from typing import Dict, List
 
-from fastapi import HTTPException, Path
+from fastapi import HTTPException, Path, status
 from starlette.requests import Request
 from tipg.dbmodel import Collection
 
@@ -19,7 +17,8 @@ def CollectionParams(
         params = dict(request.query_params)
         if not params.get("run_id"):
             raise HTTPException(
-                status_code=422, detail=f"Invalid request, missing run_id filter."
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=f"Invalid request, missing run_id filter.",
             )
 
     collection_pattern = re.match(  # type: ignore
@@ -27,12 +26,13 @@ def CollectionParams(
     )
     if not collection_pattern:
         raise HTTPException(
-            status_code=422, detail=f"Invalid Collection format '{collectionId}'."
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=f"Invalid Collection format '{collectionId}'.",
         )
 
     if not collection_pattern.groupdict().keys() == {"schema", "collection"}:
         raise HTTPException(
-            status_code=422,
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail=f"Invalid key format '{collection_pattern.groupdict()}'.",
         )
 

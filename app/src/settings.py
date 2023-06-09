@@ -102,6 +102,8 @@ class _APISettings(pydantic.BaseSettings):
     cors_origins: str = "*"
     cachecontrol: str = "public, max-age=3600"
     template_directory: Optional[str] = None
+    api_key_name: str = "X-API-KEY"
+    api_key: str
 
     add_tiles_viewer: bool = True
     stateless: bool = True
